@@ -20,11 +20,12 @@ export default function App() {
       setTextInput("")
       console.log(products)
   }
-  const renderProduct = (product) => (
-    <View style={{flex: 2}}>
-      <Text style={{color: "white"}}>{product.value}</Text>
+  const renderProduct = ({item}) => (    
+    <View /* style={{flex: 2}} */>
+      <Text style={{color: "white"}}>{item.value}</Text>
     </View>
   )
+
 
   return (
     <View style={styles.container}>
@@ -32,6 +33,7 @@ export default function App() {
       <View>
         <TextInput value={textInput} style={{backgroundColor: "white", borderRadius: "5px", padding: "10px"}} placeholder="escribe un nuevo item" onChangeText={onHandleChangeProduct}/>
         <Button title="ADD" onPress={addItem}/>
+        
       </View>
       <View style={{backgroundColor: "green"}}>
         <FlatList
