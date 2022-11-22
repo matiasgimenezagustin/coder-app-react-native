@@ -67,15 +67,19 @@ const ItemsListControler = () => {
             <View style={{ gap: 20}}>
                 <View style={{gap: 10}}>
                     <TextInput value={textInput} style={{backgroundColor: "white", borderRadius: 3, padding: "10px"}}  placeholder="Escribe un nuevo item" onChangeText={onHandleChangeProduct}/>
-                    <Button title="ADD" color={"#AC1B1B"} onPress={addItem}/>
+
+                    <Button title="ADD" color={mainColors.red} onPress={addItem}/>
+
                 </View>
                 <View style={{gap: 10}}>
                     <TextInput value={textInputDelete}  style={{backgroundColor: "white", borderRadius: 3, padding: "10px"}} placeholder="Elimina un item" onChangeText={onHandleChangeDeleteProduct}/>
-                    <Button title="DELETE" color={"#AC1B1B"} onPress={deleteItemByValue}/>
+
+                    <Button title="DELETE" color={mainColors.red} onPress={deleteItemByValue}/>
+                    
                 </View>
                 <View style={{gap: 10}}>
                     
-                    <Button title="RESET" color={"#AC1B1B"} onPress={() =>{ setDeleteAllModal(true)}}/>
+                    <Button title="RESET" color={mainColors.red} onPress={() =>{ setDeleteAllModal(true)}}/>
                 </View>
             </View>
             <View style={{backgroundColor: "white", width: "90%", marginTop: 10, padding: 5}}>
@@ -95,8 +99,11 @@ const ItemsListControler = () => {
                     <View style={{ justifyContent: 'space-around', alignItems: "center", backgroundColor: "#252628", borderRadius: 5, width: "80vw", height: "25vh"}}>
                         <Text style={{color: "white", fontSize: "1rem", textAlign: "center", padding: 2}}>¿Seguro que deseas eliminar el item?</Text>
                         <View style={{flexDirection: "row", gap: 10}}>
-                            <Button title="Eliminar" color={"#AC1B1B"} onPress={() => {deleteItemById()}}/>
-                            <Button title="Cancelar" color={"#AC1B1B"} onPress={() => setModalVisible(false)}/>
+
+                            <Button title="Eliminar" color={mainColors.red} onPress={() => {deleteItemById()}}/>
+
+                            <Button title="Cancelar" color={mainColors.red} onPress={() => setModalVisible(false)}/>
+
                         </View>
                     </View>
                 </View>
@@ -115,8 +122,8 @@ const ItemsListControler = () => {
                     <View style={{ justifyContent: 'space-around', alignItems: "center", backgroundColor: "#252628", borderRadius: 5, width: "80vw", height: "25vh"}}>
                         <Text style={{color: "white", fontSize: "1rem", textAlign: "center", padding: 2}}>¿Seguro que deseas eliminar todos los items?</Text>
                         <View style={{flexDirection: "row", gap: 10}}>
-                            <Button title="Eliminar" color={"#AC1B1B"} onPress={deleteAllItems}/>
-                            <Button title="Cancelar" color={"#AC1B1B"} onPress={() => setDeleteAllModal(false)}/>
+                            <Button title="Eliminar" color={mainColors.red} onPress={deleteAllItems}/>
+                            <Button title="Cancelar" color={mainColors.red} onPress={() => setDeleteAllModal(false)}/>
                         </View>
                     </View>
                 </View>
@@ -137,7 +144,8 @@ export default ItemsListControler
 
 const mainColors = {
     black: "#181818",
-    white: "white"
+    white: "white",
+    red: "#AC1B1B",
 }
 const styles = StyleSheet.create({
     container: {
