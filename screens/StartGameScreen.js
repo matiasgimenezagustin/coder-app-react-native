@@ -8,25 +8,63 @@ import colors from '../constants/colors';
 export default function StartGameScreen() {
     
     const [ numberSelected, onNumberSelected ] = useState("")
-    const handleNumber = ( number ) =>{
-      onNumberSelected(number.replace(/[^0-9]/g), "")
+    const [isConfirmed, setIsConfirmed] = useState(false)
+    const [ numberConfirmed, setNumberConfirmed] = useState("")
+    const [ error, setError] = useState({
+        invalid: false,
+        msg: "Error: El numero es mayor a 30!"
+    })
+    
+
+    const handleConfirm = () =>{
+        !error.invalid ?  Keyboard.dismiss() : null
+        
+        if(numberSelected === NaN || numberSelected <= 0 || numberSelected > 30 ) return 
+            
+        setNumberConfirmed(numberSelected)
+        setIsConfirmed(true)
+        
     }
+    const handleNumber = ( number ) =>{
+        if(number > 30){
+            setError(currentValue =>({...currentValue , invalid: true}))
+        }else{
+            setError(currentValue => ({...currentValue, invalid: false}))
+        }
+        onNumberSelected(number.replace(/[^0-9]/g, ""))
+
+
+        
+        console.log(error.invalid)
+    }
+
+    const handleResetInput = () =>{
+        onNumberSelected("")
+        setIsConfirmed(false)
+    }
+    
   return (
     <TouchableWithoutFeedback onPress={ () => Keyboard.dismiss()}>
 
     
       <View style={styles.screen}>
         <Text style={styles.title}>¿Preparado para empezar?</Text>
-        <Card style={styles.card}>
-          <Text style={styles.mensaje}>Elije un numero</Text>
-
-          <TextInput style={styles.inputText} keyboardType="numeric" autoCapitalize="none" blurOnSubmit autoCorrect={false}  value={numberSelected} placeholder=" 1 - 30 " onChangeText={onNumberSelected} textAlign="center" maxLength={2}/>
+        <Card  height={300}>
+          <Text style={styles.mensaje}>Elije un numero del 1 al 30</Text>
+            {error.invalid && <Text style={styles.mensaje}>{error.msg}</Text> }
+            <TextInput style={styles.inputText} keyboardType="numeric" autoCapitalize="none" blurOnSubmit autoCorrect={false}  value={numberSelected} placeholder=" 1 - 30 " onChangeText={handleNumber} textAlign="center"  maxLength={2}/>
 
           <View style={styles.buttonsContainer}>
-            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Borrar" funcion={() =>onNumberSelected("") }/>
-            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Confirmar" funcion={() => console.log("confirmar") }/>
+            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Borrar" funcion={ handleResetInput }/>
+            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Confirmar" funcion={ handleConfirm }/>
           </View>
         </Card>
+        {isConfirmed && !error.invalid && 
+        <Card  height={125} >
+            <Text style={styles.mensaje}>Tu numero es: {numberConfirmed}</Text>
+            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Empezar Juego" funcion={ handleResetInput }/>
+        </Card>
+      }
       </View>
     </TouchableWithoutFeedback>
   )
