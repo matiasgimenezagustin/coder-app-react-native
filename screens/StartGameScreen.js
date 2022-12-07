@@ -1,15 +1,23 @@
 import { StyleSheet, Text, View, TextInput, Button, Keyboard, TouchableWithoutFeedback  } from 'react-native'
-import React,{useState} from 'react'
+import {useState} from 'react'
 import Boton from '../components/Boton';
 import Card from '../components/Card';
 import colors from '../constants/colors';
+import {useFonts} from "expo-font"
+
 
 
 export default function StartGameScreen() {
     
+    const [fontLoaded] = useFonts({
+      poppins: require("../assets/fonts/Poppins-Black.ttf")
+    })
     const [ numberSelected, onNumberSelected ] = useState("")
+
     const [isConfirmed, setIsConfirmed] = useState(false)
+
     const [ numberConfirmed, setNumberConfirmed] = useState("")
+
     const [ error, setError] = useState({
         invalid: false,
         msg: "Error: El numero es mayor a 30!"
@@ -43,12 +51,15 @@ export default function StartGameScreen() {
         setIsConfirmed(false)
     }
     
+    if(!fontLoaded){
+        return null
+    }
   return (
     <TouchableWithoutFeedback onPress={ () => Keyboard.dismiss()}>
 
     
       <View style={styles.screen}>
-        <Text style={styles.title}>¿Preparado para empezar?</Text>
+        <Text style={[{fontFamily:"poppins"}, styles.title]}>¿Preparado para empezar?</Text>
         <Card  height={300}>
           <Text style={styles.mensaje}>Elije un numero del 1 al 30</Text>
             {error.invalid && <Text style={styles.mensaje}>{error.msg}</Text> }
@@ -79,10 +90,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title:{
+ 
         color: colors.verdeOscuro,
         fontSize:24,
         marginVertical: 80,
-        fontWeight: "900"
+        fontWeight: "bolder"
     },
     buttonsContainer:{
         flexDirection: "row",
