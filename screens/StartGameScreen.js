@@ -1,17 +1,21 @@
-import { StyleSheet, Text, View, TextInput, Button, Keyboard, TouchableWithoutFeedback  } from 'react-native'
+import { StyleSheet, Text,  TextInput, Keyboard } from 'react-native'
 import {useState} from 'react'
+import {useFonts} from "expo-font"
+
 import Boton from '../components/Boton';
 import Card from '../components/Card';
 import colors from '../constants/colors';
-import {useFonts} from "expo-font"
+import Background from '../components/Background';
+import ButtonsContainer from '../components/ButtonsContainer';
+import { CustomText, CustomTitle } from '../components/Customs';
 
 
-
-export default function StartGameScreen() {
+export default function StartGameScreen({onStartGame}) {
     
     const [fontLoaded] = useFonts({
-      poppins: require("../assets/fonts/Poppins-Black.ttf")
+        poppins: require("../assets/fonts/Poppins-Black.ttf")
     })
+
     const [ numberSelected, onNumberSelected ] = useState("")
 
     const [isConfirmed, setIsConfirmed] = useState(false)
@@ -20,7 +24,7 @@ export default function StartGameScreen() {
 
     const [ error, setError] = useState({
         invalid: false,
-        msg: "Error: El numero es mayor a 30!"
+        msg: "ERROR: El numero es mayor a 30!"
     })
     
 
@@ -34,6 +38,7 @@ export default function StartGameScreen() {
         
     }
     const handleNumber = ( number ) =>{
+        console.log(number)
         if(number > 30){
             setError(currentValue =>({...currentValue , invalid: true}))
         }else{
@@ -54,61 +59,34 @@ export default function StartGameScreen() {
     if(!fontLoaded){
         return null
     }
-  return (
-    <TouchableWithoutFeedback onPress={ () => Keyboard.dismiss()}>
+    return (
 
-    
-      <View style={styles.screen}>
-        <Text style={[{fontFamily:"poppins"}, styles.title]}>¿Preparado para empezar?</Text>
-        <Card  height={300}>
-          <Text style={styles.mensaje}>Elije un numero del 1 al 30</Text>
-            {error.invalid && <Text style={styles.mensaje}>{error.msg}</Text> }
-            <TextInput style={styles.inputText} keyboardType="numeric" autoCapitalize="none" blurOnSubmit autoCorrect={false}  value={numberSelected} placeholder=" 1 - 30 " onChangeText={handleNumber} textAlign="center"  maxLength={2}/>
 
-          <View style={styles.buttonsContainer}>
-            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Borrar" funcion={ handleResetInput }/>
-            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Confirmar" funcion={ handleConfirm }/>
-          </View>
-        </Card>
-        {isConfirmed && !error.invalid && 
-        <Card  height={125} >
-            <Text style={styles.mensaje}>Tu numero es: {numberConfirmed}</Text>
-            <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Empezar Juego" funcion={ handleResetInput }/>
-        </Card>
-      }
-      </View>
-    </TouchableWithoutFeedback>
-  )
-}
+        <Background>
+            <CustomTitle content={"¿Preparado para empezar?"}/>
+            <Card  height={300}>
+                <CustomText style={styles.text} content="Elije un numero del 1 al 30"/>
+                    {error.invalid && <CustomText content={error.msg} error={true} /> }
+                    <TextInput style={styles.inputText} keyboardType="numeric" autoCapitalize="none" blurOnSubmit autoCorrect={false}  value={numberSelected} placeholder=" 1 - 30 " onChangeText={handleNumber} textAlign="center"  maxLength={2}/>
+
+                <ButtonsContainer>
+                    <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Borrar" funcion={ handleResetInput }/>
+                    <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Confirmar" funcion={ handleConfirm }/>
+                </ButtonsContainer>
+            </Card>
+            {isConfirmed && !error.invalid && 
+            <Card  height={125} >
+                <CustomText content={"Tu numero es: " + numberConfirmed}/>
+                <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Empezar Juego" funcion={() => onStartGame(numberSelected) }/>
+            </Card>
+        }
+        </Background>
+
+    )
+    }
 
 
 const styles = StyleSheet.create({
-    screen:{
-        backgroundColor: colors.verdeClaro,
-        flex: 1,
-        padding: 15,
-        alignItems: 'center',
-    },
-    title:{
- 
-        color: colors.verdeOscuro,
-        fontSize:24,
-        marginVertical: 80,
-        fontWeight: "bolder"
-    },
-    buttonsContainer:{
-        flexDirection: "row",
-        width: "60%",
-        justifyContent: "space-between",
-        
-
-    },
-    mensaje:{
-        color: colors.verdeMuyOscuro,
-        textAlign: "center",
-        fontSize:20,
-        fontWeight: "800"
-    },
     inputText:{
         backgroundColor: colors.verdeClaro,
         width: "30%",
@@ -118,8 +96,5 @@ const styles = StyleSheet.create({
         elevation: 3,
         color: colors.verdeOscuro,
         textAlign: "center"
-
     },
-    
-
 })
