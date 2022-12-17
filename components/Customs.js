@@ -9,7 +9,7 @@ export function CustomTitle({content}) {
 }
 
 export function CustomText({content, error}) {
-    console.log(error)
+
     return (
         <>
             {error ? <Text style={[styles.text, {color: colors.rojo}]}>{content}</Text> : <Text style={styles.text} >{content}</Text> }

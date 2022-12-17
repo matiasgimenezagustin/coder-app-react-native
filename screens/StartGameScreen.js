@@ -1,6 +1,6 @@
-import { StyleSheet, Text,  TextInput, Keyboard } from 'react-native'
+import { StyleSheet, Text,  TextInput, Keyboard} from 'react-native'
 import {useState} from 'react'
-import {useFonts} from "expo-font"
+
 
 import Boton from '../components/Boton';
 import Card from '../components/Card';
@@ -10,11 +10,10 @@ import ButtonsContainer from '../components/ButtonsContainer';
 import { CustomText, CustomTitle } from '../components/Customs';
 
 
+
 export default function StartGameScreen({onStartGame}) {
     
-    const [fontLoaded] = useFonts({
-        poppins: require("../assets/fonts/Poppins-Black.ttf")
-    })
+    
 
     const [ numberSelected, onNumberSelected ] = useState("")
 
@@ -24,30 +23,28 @@ export default function StartGameScreen({onStartGame}) {
 
     const [ error, setError] = useState({
         invalid: false,
-        msg: "ERROR: El numero es mayor a 30!"
+        msg: "ERROR: El numero es menor a 1!"
     })
     
 
     const handleConfirm = () =>{
         !error.invalid ?  Keyboard.dismiss() : null
+
+        if(numberSelected === NaN || numberSelected <= 0 || numberSelected > 100 ) return 
         
-        if(numberSelected === NaN || numberSelected <= 0 || numberSelected > 30 ) return 
-            
         setNumberConfirmed(numberSelected)
         setIsConfirmed(true)
         
     }
+
     const handleNumber = ( number ) =>{
         console.log(number)
-        if(number > 30){
+        if(number < 1 && number != ""){
             setError(currentValue =>({...currentValue , invalid: true}))
         }else{
             setError(currentValue => ({...currentValue, invalid: false}))
         }
         onNumberSelected(number.replace(/[^0-9]/g, ""))
-
-
-        
         console.log(error.invalid)
     }
 
@@ -56,18 +53,16 @@ export default function StartGameScreen({onStartGame}) {
         setIsConfirmed(false)
     }
     
-    if(!fontLoaded){
-        return null
-    }
+    
     return (
 
 
         <Background>
             <CustomTitle content={"¿Preparado para empezar?"}/>
             <Card  height={300}>
-                <CustomText style={styles.text} content="Elije un numero del 1 al 30"/>
+                <CustomText style={styles.text} content="Elije un numero del 1 al 99"/>
                     {error.invalid && <CustomText content={error.msg} error={true} /> }
-                    <TextInput style={styles.inputText} keyboardType="numeric" autoCapitalize="none" blurOnSubmit autoCorrect={false}  value={numberSelected} placeholder=" 1 - 30 " onChangeText={handleNumber} textAlign="center"  maxLength={2}/>
+                    <TextInput style={styles.inputText} keyboardType="numeric" autoCapitalize="none" blurOnSubmit autoCorrect={false}  value={numberSelected} placeholder=" 1 - 99 " onChangeText={handleNumber} textAlign="center"  maxLength={2}/>
 
                 <ButtonsContainer>
                     <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title="Borrar" funcion={ handleResetInput }/>
