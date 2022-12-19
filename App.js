@@ -11,6 +11,7 @@ import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen';
 import ResultScreen from './screens/ResultScreen';
 import ShopNavigator from './navigation/ShopNavigator';
+import BottomTabNavigator from './navigation/BottomTabNavigator';
 
 
 
@@ -56,7 +57,7 @@ export default function App() {
             {content} */
     return (
         <View style={{flex: 1}} >
-            <ShopNavigator/>
+            <BottomTabNavigator/>
 
         </View>
     );

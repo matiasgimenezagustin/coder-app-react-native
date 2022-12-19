@@ -15,7 +15,15 @@ export default function Background({children}) {
     </TouchableWithoutFeedback>
   )
 }
+export function BackgroundWithNothing({children, newStyles}) {
+  
 
+  return (
+    <View style={{...styles.screen, ...newStyles}}>
+      {children}
+    </View>
+  )
+}
 const styles = StyleSheet.create({
 
     screen:{
