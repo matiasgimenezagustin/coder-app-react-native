@@ -12,7 +12,7 @@ const LevelStar = ({level}) => {
   console.log("hola",level)
     return (
       <View style={{flexDirection: "row"}} >
-        {[...Array(level)].map((i) =>(<Star key={i}/>))}
+        {[...Array(level)].map((i) =>(<Star key={Math.random()}/>))}
       </View>
     )
   }

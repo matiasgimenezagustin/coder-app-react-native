@@ -5,20 +5,31 @@ import { CustomText } from '../../components/Customs'
 import Card from '../../components/Card'
 import Boton from '../../components/Boton'
 import colors from '../../constants/colors'
-import cards from "../../data/cards"
+import { connect, useDispatch, useSelector} from 'react-redux'
 import CardView from '../../components/CardView'
+import { selectedCard } from '../../store/actions/cards.action'
 
-const ProductsListScreen = ({navigation, route}) => {
-  const {category, categoryId} = route.params
-  //obtenemos el titulo de la categoria mediante los params de la route
-  console.log(cards[0].id, categoryId)
-  const filterCards = () => cards.filter( (card) => card.categoryId == categoryId)
+
+const ProductsListScreen = ({navigation}) => {
+  const dispatch = useDispatch()
+
+
+  
+  const cards = useSelector(state => state.cards.cards)
+  const categoryID = useSelector(state => state.categories.selected)
+
+
+  const filterCards = () => cards.filter( (card) => card.categoryId == categoryID)
 
   const [filteredCards, setFilteredCards] = useState(filterCards())
 
   
-  const handlePressCard = (item) =>{ navigation.navigate("detalle", {
-    item: item})
+  const handlePressCard = (item) =>{ 
+      dispatch(selectedCard(item.id))
+      navigation.navigate("detalle", {
+        item: item
+      }
+    )
     
   }
   const renderCard = ({ item }) =>(
@@ -40,6 +51,6 @@ const ProductsListScreen = ({navigation, route}) => {
   )
 }
 
-export default ProductsListScreen
+export default connect()(ProductsListScreen) 
 
 const styles = StyleSheet.create({})

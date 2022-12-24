@@ -3,8 +3,9 @@ import React from 'react'
 import colors from '../constants/colors'
 import dimensions from '../constants/screenDimensions'
 import LevelStar from './LevelStar'
+import Boton from './Boton'
 
-const CardView = ({item, handlePressCard}) => {
+const CardView = ({item, handlePressCard, handleDelete}) => {
   return (
     <View style={styles.card}>
       <View style={{flex: 1, justifyContent: "space-around"}}>
@@ -37,6 +38,7 @@ const CardView = ({item, handlePressCard}) => {
       <Pressable onPress={(item) =>handlePressCard(item)}>
         <Image source={{uri: item.image}} style={{ width: 100, height: 145, alignSelf:"center" }}/>
       </Pressable>
+      <Boton color={colors.verdeClaro} bgColor={colors.verdeOscuro} title={"X"} funcion={handleDelete}/>
     </View>
   )
 }

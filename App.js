@@ -2,9 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View} from 'react-native';
 import { useState } from 'react';
 import {useFonts} from "expo-font"
-
+import { Provider } from 'react-redux';
+import store from './store';
 import ItemsListControler from './components/ItemListControler';
-
 import Navbar from './components/Navbar';
 import Header from './components/Header';
 import StartGameScreen from './screens/StartGameScreen';
@@ -56,10 +56,9 @@ export default function App() {
     /* <Navbar navTitle={"Adivina el Numero"}/>
             {content} */
     return (
-        <View style={{flex: 1}} >
+        <Provider store={store}>
             <BottomTabNavigator/>
-
-        </View>
+        </Provider>
     );
 }
 <Navbar navTitle={"Adivina el Numero"}/>

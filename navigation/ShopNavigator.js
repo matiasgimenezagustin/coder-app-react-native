@@ -22,7 +22,7 @@ const ShopNavigator = () => {
           headerTintColor: colors.verdeClaro
         }}>
             <Stack.Screen name='Categorias' component={CategoryListScreen} />
-            <Stack.Screen name='Productos' component={ProductListScreen} options={({route}) => ({title: route.params.category})}></Stack.Screen>
+            <Stack.Screen name='Productos' component={ProductListScreen} options={({route}) => ({title: route.params.categoryName})}></Stack.Screen>
             <Stack.Screen name='detalle'component={ProductDetailScreen}/>
         </Stack.Navigator>
   )

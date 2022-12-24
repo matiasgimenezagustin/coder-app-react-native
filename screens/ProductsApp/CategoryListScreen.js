@@ -1,19 +1,18 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import React from 'react'
 import Background from '../../components/Background'
 import { CustomTitle } from '../../components/Customs'
-import Card from '../../components/Card'
-import Boton from '../../components/Boton'
-import colors from '../../constants/colors'
-import categories from '../../data/categorias'
 import CategoryCard from '../../components/CategoryCard'
-
+import { useSelector, useDispatch, connect } from 'react-redux'
+import { categorySelected } from '../../store/actions/categories.action'
 const CategoryListScreen = ({navigation}) => {
 
+    const categories = useSelector((state) => state.categories.categories)
+    const dispatch = useDispatch()
     const handleSelectCard = ( item ) =>{
-        navigation.navigate("Productos",{
-            categoryId: item.id,
-            category: item.name
+        dispatch(categorySelected(item.id))
+        navigation.navigate("Productos", {
+            categoryName: item.name
         })
     }
     const renderCategory = ({ item }) =>(
@@ -26,7 +25,6 @@ const CategoryListScreen = ({navigation}) => {
                 <FlatList 
                 data={categories}
                 keyExtractor={(item) => item.id}
-                
                 renderItem={renderCategory}
                 />
             </View>
@@ -37,7 +35,7 @@ const CategoryListScreen = ({navigation}) => {
     )
 }
 
-export default CategoryListScreen
+export default connect()(CategoryListScreen)
 
 const styles = StyleSheet.create({})
 
